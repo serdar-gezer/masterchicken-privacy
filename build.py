@@ -14,6 +14,8 @@ APPS = {
     "flipnir": {"name": "Flipnir", "package": "com.masterchicken.flipnir", "accent": "#A0127F", "bg": "#FFF6FC", "share": False},
     "huedrop": {"name": "Hue Drop", "package": "com.masterchicken.huedrop", "accent": "#2E7D12", "bg": "#F6FFF2", "share": False},
     "neonbridge": {"name": "Neon Bridge", "package": "com.masterchicken.neonbridge", "accent": "#00737F", "bg": "#F2FDFF", "share": False},
+    "porchsale": {"name": "Porch Sale", "package": "com.masterchicken.porchsale", "accent": "#C8323A", "bg": "#FFFDF6", "share": False, "notify": True,
+                  "updated_tr": "24 Kasım 2026", "updated_en": "24 November 2026"},
 }
 
 
@@ -23,10 +25,16 @@ def tr(a):
 <p>Günlük bulmacada “Sonucu paylaş” butonuna bastığınızda, puanınızı içeren kısa bir metin <strong>cihazınızda</strong> oluşturulur ve sizin seçtiğiniz uygulamaya (örneğin WhatsApp) aktarılır. Uygulama bu metni veya kiminle paylaştığınızı hiçbir yere göndermez ya da kaydetmez.</p>
 """ if a["share"] else ""
     n = 6 if a["share"] else 5
+    if a.get("notify"):
+        share += f"""
+<h2>{n}. Hatırlatma bildirimleri</h2>
+<p>İzin verirseniz Uygulama, enerjiniz dolduğunda ve günlük posta kutusu için hatırlatma bildirimi gösterir. Bu bildirimler <strong>cihazınızda</strong> zamanlanır; hiçbir sunucuya bilgi gönderilmez. Bildirimleri Uygulamanın ayarlarından veya telefonunuzun ayarlarından kapatabilirsiniz.</p>
+"""
+        n += 1
     return f"""
 <section lang="tr" id="tr">
 <h1>{a['name']} – Gizlilik Politikası</h1>
-<p class="date">Son güncelleme: {UPDATED_TR} · <a href="#en">English version below</a></p>
+<p class="date">Son güncelleme: {a.get('updated_tr', UPDATED_TR)} · <a href="#en">English version below</a></p>
 
 <p>Bu gizlilik politikası, Master Chicken tarafından yayınlanan <strong>{a['name']}</strong> oyununun (“Uygulama”, paket adı <code>{a['package']}</code>) hangi bilgileri nasıl işlediğini açıklar.</p>
 
@@ -71,10 +79,16 @@ def en(a):
 <p>When you tap “Share result” after the daily puzzle, a short text with your score is created <strong>on your device</strong> and handed to the app you choose (for example WhatsApp). The App does not send or store this text or who you share it with.</p>
 """ if a["share"] else ""
     n = 6 if a["share"] else 5
+    if a.get("notify"):
+        share += f"""
+<h2>{n}. Reminder notifications</h2>
+<p>If you allow it, the App shows reminder notifications when your energy is full and for the daily mailbox. These notifications are scheduled <strong>on your device</strong>; no information is sent to any server. You can turn them off in the App’s settings or in your phone’s settings.</p>
+"""
+        n += 1
     return f"""
 <section lang="en" id="en">
 <h1>{a['name']} – Privacy Policy</h1>
-<p class="date">Last updated: {UPDATED_EN} · <a href="#tr">Türkçe sürüm yukarıda</a></p>
+<p class="date">Last updated: {a.get('updated_en', UPDATED_EN)} · <a href="#tr">Türkçe sürüm yukarıda</a></p>
 
 <p>This privacy policy explains what information the game <strong>{a['name']}</strong> (“the App”, package name <code>{a['package']}</code>), published by Master Chicken, handles and how.</p>
 
